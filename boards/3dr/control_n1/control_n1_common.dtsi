@@ -41,6 +41,8 @@
 		accel0 = &imu1;
 		accel1 = &imu2;
 		buzzer0 = &buzzer;
+		die-temp0 = &die_temp;
+		volt-sensor0 = &vref;
 		magn0 = &ak09940a;
 		sdhc0 = &sdmmc1;
 		watchdog0 = &iwdg;
@@ -339,6 +341,24 @@
 		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
 		zephyr,resolution = <16>;
 	};
+};
+
+&adc3_common {
+	st,adc-clock-source = "SYNC";
+	st,adc-prescaler = <4>;
+	status = "okay";
+};
+
+&adc3 {
+	status = "okay";
+};
+
+&die_temp {
+	status = "okay";
+};
+
+&vref {
+	status = "okay";
 };
 
 &sdmmc1 {
