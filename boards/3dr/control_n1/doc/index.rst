@@ -34,7 +34,7 @@ Supported Features
 
 .. zephyr:board-supported-hw::
 
-The IMUs, the barometer, the page EEPROM and the RGB LED have no Zephyr driver yet. Their buses
+The barometer, the page EEPROM and the RGB LED have no Zephyr driver yet. Their buses
 are enabled so that the chip selects stay inactive.
 
 Connections and IOs

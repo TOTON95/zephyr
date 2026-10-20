@@ -5,6 +5,7 @@
 
 #include <st/h7/stm32h743Xi.dtsi>
 #include <st/h7/stm32h743v(g-i)hx-pinctrl.dtsi>
+#include <zephyr/dt-bindings/sensor/iim42653.h>
 #include "control_n1_connector.dtsi"
 
 / {
@@ -37,6 +38,8 @@
 
 	aliases {
 		led0 = &blue_led;
+		accel0 = &imu1;
+		accel1 = &imu2;
 		buzzer0 = &buzzer;
 		magn0 = &ak09940a;
 		sdhc0 = &sdmmc1;
@@ -176,7 +179,17 @@
 	cs-gpios = <&gpioe 12 GPIO_ACTIVE_LOW>;
 	status = "okay";
 
-	/* CS0: IIM-42653 IMU, not supported yet */
+	imu1: iim42653@0 {
+		compatible = "invensense,iim42653", "invensense,icm4268x";
+		reg = <0>;
+		spi-max-frequency = <DT_FREQ_M(8)>;
+		accel-pwr-mode = <IIM42653_DT_ACCEL_LN>;
+		accel-odr = <IIM42653_DT_ACCEL_ODR_1000>;
+		accel-fs = <IIM42653_DT_ACCEL_FS_32>;
+		gyro-pwr-mode = <IIM42653_DT_GYRO_LN>;
+		gyro-odr = <IIM42653_DT_GYRO_ODR_1000>;
+		gyro-fs = <IIM42653_DT_GYRO_FS_4000>;
+	};
 };
 
 &spi2 {
@@ -186,7 +199,17 @@
 	cs-gpios = <&gpioe 15 GPIO_ACTIVE_LOW>;
 	status = "okay";
 
-	/* CS0: IIM-42653 IMU, not supported yet */
+	imu2: iim42653@0 {
+		compatible = "invensense,iim42653", "invensense,icm4268x";
+		reg = <0>;
+		spi-max-frequency = <DT_FREQ_M(8)>;
+		accel-pwr-mode = <IIM42653_DT_ACCEL_LN>;
+		accel-odr = <IIM42653_DT_ACCEL_ODR_1000>;
+		accel-fs = <IIM42653_DT_ACCEL_FS_32>;
+		gyro-pwr-mode = <IIM42653_DT_GYRO_LN>;
+		gyro-odr = <IIM42653_DT_GYRO_ODR_1000>;
+		gyro-fs = <IIM42653_DT_GYRO_FS_4000>;
+	};
 };
 
 &spi4 {
