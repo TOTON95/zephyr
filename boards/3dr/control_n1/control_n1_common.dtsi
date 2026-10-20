@@ -38,6 +38,7 @@
 	aliases {
 		led0 = &blue_led;
 		buzzer0 = &buzzer;
+		magn0 = &ak09940a;
 		sdhc0 = &sdmmc1;
 		watchdog0 = &iwdg;
 	};
@@ -155,7 +156,10 @@
 	clock-frequency = <I2C_BITRATE_FAST>;
 	status = "okay";
 
-	/* 0x0c: AK09940A magnetometer, not supported yet */
+	ak09940a: magnetometer@c {
+		compatible = "asahi-kasei,ak09940a";
+		reg = <0x0c>;
+	};
 };
 
 &i2c2 {
