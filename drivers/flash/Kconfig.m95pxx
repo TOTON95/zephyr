@@ -1,0 +1,43 @@
+# Copyright (c) 2026 3DR, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+menuconfig FLASH_M95PXX
+	bool "ST M95P family SPI Page EEPROM driver"
+	default y
+	depends on DT_HAS_ST_M95PXX_ENABLED
+	select FLASH_HAS_DRIVER_ENABLED
+	select FLASH_HAS_PAGE_LAYOUT
+	select FLASH_HAS_NO_EXPLICIT_ERASE
+	select SPI
+	help
+	  Driver for the ST M95P family SPI Page EEPROMs (DS13999):
+	  M95P08 (1 MB), M95P16 (2 MB), M95P32 (4 MB).
+
+	  All variants use the same command set.  Chip size and JEDEC ID
+	  are taken from the 'size' and 'jedec-id' devicetree properties.
+
+	  Flash API parameters:
+	    write_block_size = 1   (NVS-compatible)
+	    erase granularity = 4 KB sector
+	    erase_value = 0xFF
+	    no_explicit_erase = 1  (device auto-erases before every write)
+
+if FLASH_M95PXX
+
+config FLASH_M95PXX_SKIP_JEDEC_CHECK
+	bool "Skip JEDEC ID verification at init"
+	default n
+	help
+	  Bypass the 3-byte JEDEC ID check performed during driver init.
+	  Enable if init fails with -ENODEV and a logic analyzer is not
+	  available to diagnose the mismatch.  A LOG_WRN is emitted when
+	  this option is active.
+
+config FLASH_M95PXX_INIT_PRIORITY
+	int "Driver initialization priority"
+	default 80
+	help
+	  Device driver initialization priority.
+	  Must be higher than the SPI bus driver priority.
+
+endif # FLASH_M95PXX

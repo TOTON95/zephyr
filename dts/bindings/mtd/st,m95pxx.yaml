@@ -1,0 +1,55 @@
+# Copyright (c) 2026 3DR, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+description: |
+  ST M95P family SPI Page EEPROM (DS13999).
+
+  Covers M95P08 (1 MB), M95P16 (2 MB), M95P32 (4 MB).
+  All variants share the same command set and page/sector/block geometry
+  (512 B page, 4 KB sector, 64 KB block); only total capacity differs.
+
+  Example DTS node for the M95P08:
+
+    &spi0 {
+        flash: m95pxx@1 {
+            compatible = "st,m95pxx";
+            reg = <1>;
+            spi-max-frequency = <DT_FREQ_M(50)>;
+            size = <DT_SIZE_M(1)>;
+            jedec-id = [20 00 14];
+        };
+    };
+
+compatible: "st,m95pxx"
+
+include: [spi-device.yaml]
+
+properties:
+  size:
+    type: int
+    required: true
+    description: |
+      Flash capacity in bytes.  Must be one of:
+        DT_SIZE_M(1)  — M95P08
+        DT_SIZE_M(2)  — M95P16
+        DT_SIZE_M(4)  — M95P32
+
+  jedec-id:
+    type: uint8-array
+    required: true
+    description: |
+      JEDEC ID as [manufacturer (1 B), device-type (1 B), capacity (1 B)].
+      ST manufacturer byte: 0x20.
+      M95P family byte:     0x00.
+      Capacity byte (JEDEC density = 2^N bytes):
+        0x14 — M95P08 (1 MB)
+        0x15 — M95P16 (2 MB)
+        0x16 — M95P32 (4 MB)
+
+  wp-gpios:
+    type: phandle-array
+    description: |
+      Write-protect (W) pin, active-low.  Must be driven; never float.
+      Configure as GPIO_ACTIVE_LOW: asserted (pin LOW) = write-protected,
+      deasserted (pin HIGH) = writes allowed.
+      Omit if W is tied directly to VCC on the PCB.
