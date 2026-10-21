@@ -34,8 +34,9 @@ Supported Features
 
 .. zephyr:board-supported-hw::
 
-The page EEPROM and the RGB LED have no Zephyr driver yet. Their buses are enabled so that
-the chip selects stay inactive. The DPS368 barometer uses the DPS310 driver.
+The RGB LED has no Zephyr driver yet; its bus is enabled so that the chip select stays
+inactive. The DPS368 barometer uses the DPS310 driver, and the M95P08 page EEPROM uses
+the M95Pxx driver.
 
 Connections and IOs
 ===================

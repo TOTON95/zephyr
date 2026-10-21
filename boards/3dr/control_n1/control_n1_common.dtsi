@@ -238,7 +238,14 @@
 		spi-max-frequency = <DT_FREQ_M(5)>;
 	};
 
-	/* CS1: M95P08 page EEPROM, not supported yet */
+	/* W (write-protect) is tied to VCC on the PCB: omit wp-gpios */
+	storage: m95pxx@1 {
+		compatible = "st,m95pxx";
+		reg = <1>;
+		spi-max-frequency = <DT_FREQ_M(50)>;
+		size = <DT_SIZE_M(1)>;
+		jedec-id = [20 00 14];
+	};
 };
 
 &fdcan1 {
