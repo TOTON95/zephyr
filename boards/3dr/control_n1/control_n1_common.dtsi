@@ -44,6 +44,8 @@
 		die-temp0 = &die_temp;
 		volt-sensor0 = &vref;
 		magn0 = &ak09940a;
+		pressure-sensor = &baro;
+		ambient-temp0 = &baro;
 		sdhc0 = &sdmmc1;
 		watchdog0 = &iwdg;
 	};
@@ -229,10 +231,14 @@
 	cs-gpios = <&gpioe 3 GPIO_ACTIVE_LOW>, <&gpioc 13 GPIO_ACTIVE_LOW>;
 	status = "okay";
 
-	/*
-	 * CS0: DPS368 barometer, not supported on SPI yet
-	 * CS1: M95P08 page EEPROM, not supported yet
-	 */
+	/* The DPS368 is register-compatible with the DPS310 */
+	baro: pressure-sensor@0 {
+		compatible = "infineon,dps310";
+		reg = <0>;
+		spi-max-frequency = <DT_FREQ_M(5)>;
+	};
+
+	/* CS1: M95P08 page EEPROM, not supported yet */
 };
 
 &fdcan1 {
